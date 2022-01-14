@@ -1,0 +1,18 @@
+{
+  "scripts": {
+    "start": "node index",
+    "start:dev": "nodemon index"
+  },
+  "dependencies": {
+    "commander": "^8.3.0",
+    "nodemon": "^2.0.15",
+    "shortid": "^2.2.16",
+    "yargs": "^17.3.1"
+  },
+  "name": "node-js-homework-01",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/nelli-belovol/node-js-homework-01.git",
+  "author": "nelli-belovol <nelli199020@gmail.com>",
+  "license": "MIT"
+}
