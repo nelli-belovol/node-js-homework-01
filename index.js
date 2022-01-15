@@ -8,12 +8,18 @@ const invokeAction = async ({ action, id, name, email, phone }) => {
   switch (action) {
     case "list":
       const contacts = await contactsOperations.listContacts();
-      console.log(contacts);
+      console.log("Список контактов");
+      console.table(contacts);
       break;
 
     case "get":
       const contact = await contactsOperations.getContactById(id);
-      console.log(contact);
+      if (contact === null) {
+        return console.log(`Контакт с таким id не найден`);
+      }
+
+      console.log(`Контакт с id ${id}`);
+      console.table(contact);
       break;
 
     case "add":
@@ -22,12 +28,24 @@ const invokeAction = async ({ action, id, name, email, phone }) => {
         email,
         phone
       );
-      console.log(newContact);
+
+      if (!newContact) {
+        return console.log(`Контакт не добавлен`);
+      } else {
+        console.log(`Новый контакт добавлен`);
+        console.table(newContact);
+      }
+
       break;
 
     case "remove":
       const removeContact = await contactsOperations.removeContact(id);
-      console.log(removeContact);
+      if (removeContact === null) {
+        return console.log(`Контакт не удален`);
+      }
+
+      console.log(`Этот контакт удален`);
+      console.table(removeContact);
       break;
 
     default:
@@ -38,7 +56,7 @@ const invokeAction = async ({ action, id, name, email, phone }) => {
 program
   .option("-a, --action <type>", "contacts action")
   .option("-i, --id <type>", "contact id")
-  .option("-n, --name <type>", "contatc name")
+  .option("-n, --name <type>", "contact name")
   .option("-e, --email <type>", "contact email")
   .option("-p, --phone <type>", "contact phone");
 

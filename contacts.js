@@ -20,13 +20,29 @@ const getContactById = async (id) => {
   return rezult;
 };
 
-const addContact = async (name, email, phone) => {
+const addContact = (name, email, phone) => {
   const data = { id: shortId.generate(), name, email, phone };
-  const contacts = await listContacts();
+  let isError = false;
+  const checkObj = Object.entries(data);
 
-  contacts.push(data);
+  if ([name, email, phone].some((item) => Boolean(item) === false)) {
+    checkObj.forEach((item) => {
+      if (!item[1]) {
+        isError = true;
+        return console.log(`${item[0]} не введен или введен неправильно!`);
+      }
+    });
+    return null;
+  }
 
-  await fs.writeFile(contactsPath, JSON.stringify(contacts, null, 2));
+  if (!isError) {
+    async () => {
+      const contacts = await listContacts();
+      contacts.push(data);
+
+      await fs.writeFile(contactsPath, JSON.stringify(contacts, null, 2));
+    };
+  }
   return data;
 };
 
