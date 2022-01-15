@@ -20,12 +20,11 @@ const getContactById = async (id) => {
   return rezult;
 };
 
-const addContact = (name, email, phone) => {
-  const data = { id: shortId.generate(), name, email, phone };
+const addContact = async (name, email, phone) => {
   let isError = false;
-  const checkObj = Object.entries(data);
 
   if ([name, email, phone].some((item) => Boolean(item) === false)) {
+    const checkObj = Object.entries(data);
     checkObj.forEach((item) => {
       if (!item[1]) {
         isError = true;
@@ -36,14 +35,15 @@ const addContact = (name, email, phone) => {
   }
 
   if (!isError) {
-    async () => {
-      const contacts = await listContacts();
-      contacts.push(data);
+    const data = { id: shortId.generate(), name, email, phone };
 
-      await fs.writeFile(contactsPath, JSON.stringify(contacts, null, 2));
-    };
+    const contacts = await listContacts();
+    contacts.push(data);
+
+    await fs.writeFile(contactsPath, JSON.stringify(contacts, null, 2));
+
+    return data;
   }
-  return data;
 };
 
 const removeContact = async (contactId) => {
