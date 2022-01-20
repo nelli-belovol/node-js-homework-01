@@ -22,7 +22,7 @@ const getContactById = async (id) => {
 
 const addContact = async (name, email, phone) => {
   let isError = false;
-
+  const data = { id: shortId.generate(), name, email, phone };
   if ([name, email, phone].some((item) => Boolean(item) === false)) {
     const checkObj = Object.entries(data);
     checkObj.forEach((item) => {
@@ -35,8 +35,6 @@ const addContact = async (name, email, phone) => {
   }
 
   if (!isError) {
-    const data = { id: shortId.generate(), name, email, phone };
-
     const contacts = await listContacts();
     contacts.push(data);
 
